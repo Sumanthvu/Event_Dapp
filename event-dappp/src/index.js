@@ -56,3 +56,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   </React.StrictMode>,
 );
       
+
+//Privy API ID  cmex2rrfw01lxla0bhcfweq7r
+//Privy API Secret raPiLmTGCEaXBQKgwerBxEsMXnfYzA4Qo2DFEjXtEiPEH5NEkQvihc1oMK46kUML5UjFH1VqAkfjzRnzcZ1oXNm

@@ -402,6 +402,50 @@ body {
     }
 }
 
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-email {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.disconnect-button {
+  background: #ff4757;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.disconnect-button:hover {
+  background: #ff3742;
+}
+
+.auth-required {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.login-prompt-button {
+  background: #676FFF;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.login-prompt-button:hover {
+  background: #5a63f7;
+}
+
 @media (max-width: 480px) {
     .event-card-header,
     .event-card-body,
