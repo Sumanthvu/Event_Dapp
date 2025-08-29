@@ -669,7 +669,7 @@
 
 // src/components/EventList.jsx
 import React, { useState, useEffect } from 'react';
-import { Contract, formatEther, parseEther } from 'ethers';
+import { BrowserProvider, Contract, formatEther, parseEther } from 'ethers';
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from '../constants';
 
 /**
@@ -687,9 +687,12 @@ const EventList = ({ events, currentAccount, setLoading, setMessage, refetch, fo
     
     try {
       const wallet = wallets[0];
-      const provider = await wallet.getEthersProvider();
-      const eventContract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
       
+      // For Privy, use the correct provider method
+      const provider = await wallet.getEthereumProvider();
+      const ethersProvider = new BrowserProvider(provider);
+      
+      const eventContract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, ethersProvider);
       const currentPrice = await eventContract.ticketPrice(eventId);
       
       setDynamicPrices(prev => ({
@@ -751,8 +754,11 @@ const EventList = ({ events, currentAccount, setLoading, setMessage, refetch, fo
         await wallet.switchChain(11155111);
       }
       
-      const provider = await wallet.getEthersProvider();
-      const signer = await wallet.getEthersSigner();
+      // Get provider and signer using Privy's correct methods
+      const provider = await wallet.getEthereumProvider();
+      const ethersProvider = new BrowserProvider(provider);
+      const signer = await ethersProvider.getSigner();
+      
       const eventContract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
       
       // Get the current dynamic ticket price from the smart contract
