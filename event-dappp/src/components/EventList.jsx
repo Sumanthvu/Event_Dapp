@@ -649,7 +649,7 @@ const EventList = ({ events, currentAccount, setLoading, setMessage, refetch, fo
           ))
         ) : (
           <div className="empty-events">
-            <p>No events found. Be the first to create one!</p>
+            <p>No events found. Be the first to create one</p>
           </div>
         )}
       </div>
