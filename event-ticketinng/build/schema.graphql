@@ -1,0 +1,32 @@
+type Event @entity(immutable: false) {
+  id: String!
+  eventId: BigInt!
+  name: String!
+  description: String!
+  date: BigInt!
+  venue: String!
+  imageIPFS: String!
+  totalTickets: BigInt!
+  baseTicketPrice: BigInt!
+  soldTickets: BigInt!
+  organizer: Bytes!
+  stakesClaimed: Boolean!
+  stakeAmount: BigInt!
+}
+
+type Ticket @entity(immutable: true) {
+  id: String!
+  ticketId: BigInt!
+  eventId: BigInt!
+  ticketNumber: BigInt!
+  owner: Bytes!
+  pricePaid: BigInt!
+}
+
+type User @entity(immutable: false) {
+  id: String!
+  ticketsBought: BigInt!
+  level: String!
+  specialOfferCount: BigInt!
+  userTickets: [BigInt!]!
+}

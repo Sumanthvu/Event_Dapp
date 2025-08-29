@@ -1,0 +1,36 @@
+specVersion: 1.3.0
+indexerHints:
+  prune: auto
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: EventTicketing
+    network: sepolia
+    source:
+      address: "0xdA516b273D20f7D60E942D8aAc599cA9e6C73CEf"
+      abi: EventTicketing
+      startBlock: 9083516
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - Event
+        - Ticket
+        - User
+      abis:
+        - name: EventTicketing
+          file: EventTicketing\EventTicketing.json
+      eventHandlers:
+        - event: EventCreated(indexed uint256,indexed address)
+          handler: handleEventCreated
+        - event: TicketPurchased(indexed uint256,indexed uint256,indexed address,uint256)
+          handler: handleTicketPurchased
+        - event: LevelUp(indexed address,uint8)
+          handler: handleLevelUp
+        - event: SpecialOfferMinted(indexed address)
+          handler: handleSpecialOfferMinted
+        - event: StakeClaimed(indexed uint256,indexed address,uint256)
+          handler: handleStakeClaimed
+      file: EventTicketing\EventTicketing.wasm

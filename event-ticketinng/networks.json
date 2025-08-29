@@ -1,0 +1,8 @@
+{
+  "sepolia": {
+    "EventTicketing": {
+      "address": "0xdA516b273D20f7D60E942D8aAc599cA9e6C73CEf",
+      "startBlock": 9083516
+    }
+  }
+}
