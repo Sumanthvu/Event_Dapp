@@ -1,70 +1,161 @@
-# Getting Started with Create React App
+# Event DApp — Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A decentralized event ticketing application built with React 18 and Ethereum smart contracts. Users can browse events, purchase tickets as NFTs, and manage them through a wallet-connected interface.
+
+Live demo: https://event-dapp.vercel.app
+
+---
+
+## Table of Contents
+
+- [Architecture](#architecture)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Environment Variables](#environment-variables)
+- [Available Scripts](#available-scripts)
+- [How the Frontend Connects to the Contract and Subgraph](#how-the-frontend-connects-to-the-contract-and-subgraph)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+## Architecture
+
+```
+event-dappp/
+├── public/          # Static assets
+├── src/
+│   ├── components/  # Reusable UI components
+│   ├── pages/       # Route-level page components
+│   ├── hooks/       # Custom React hooks (contract + subgraph calls)
+│   ├── utils/       # Helper functions
+│   └── index.js     # App entry point
+├── package.json
+└── README.md
+```
+
+Key libraries:
+- **React 18** — UI framework
+- **ethers.js v6** — Ethereum wallet and contract interaction
+- **@privy-io/react-auth** — Wallet connection and authentication
+- **@tanstack/react-query** — Server-state management and caching
+- **graphql-request** — Querying the subgraph (The Graph)
+
+---
+
+## Prerequisites
+
+- Node.js >= 16.x
+- npm >= 8.x
+- A browser wallet (e.g. MetaMask)
+
+---
+
+## Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/Sumanthvu/Event_Dapp.git
+cd Event_Dapp/event-dappp
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Create a `.env` file in the `event-dappp/` directory (see [Environment Variables](#environment-variables)).
+
+4. Start the development server:
+
+```bash
+npm start
+```
+
+The app will open at `http://localhost:3000`.
+
+---
+
+## Environment Variables
+
+Create a `.env` file in the `event-dappp/` directory with the following keys.
+**Never commit real secrets or private keys.**
+
+```env
+# Privy app ID for wallet authentication
+REACT_APP_PRIVY_APP_ID=your_privy_app_id
+
+# Deployed smart contract address
+REACT_APP_CONTRACT_ADDRESS=0xYourContractAddress
+
+# The Graph subgraph endpoint URL
+REACT_APP_SUBGRAPH_URL=https://api.thegraph.com/subgraphs/name/your-subgraph
+
+# RPC URL for the target network (e.g. Alchemy, Infura)
+REACT_APP_RPC_URL=https://your-network-rpc-url
+```
+
+---
 
 ## Available Scripts
 
-In the project directory, you can run:
+Run these from inside the `event-dappp/` directory:
 
-### `npm start`
+| Command | Description |
+|---|---|
+| `npm start` | Starts the app in development mode at `http://localhost:3000` |
+| `npm run build` | Creates an optimized production build in the `build/` folder |
+| `npm test` | Runs tests in interactive watch mode |
+| `npm run eject` | Ejects CRA config (irreversible — only if needed) |
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## How the Frontend Connects to the Contract and Subgraph
 
-### `npm test`
+### Smart Contract
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The frontend uses **ethers.js v6** to read from and write to the deployed smart contract. The contract ABI and address are loaded from environment variables. Wallet signing is handled by **@privy-io/react-auth**, which wraps the user's connected wallet as an ethers signer.
 
-### `npm run build`
+### Subgraph (The Graph)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+For read-heavy queries (e.g. listing all events, fetching ticket ownership), the app queries a **subgraph** deployed on The Graph using **graphql-request**. The subgraph endpoint is set via `REACT_APP_SUBGRAPH_URL`. This avoids slow on-chain reads and enables efficient filtering and pagination.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Data Flow
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+User Action
+    │
+    ▼
+React Component
+    │
+    ├──► ethers.js (write) ──► Smart Contract on-chain
+    │
+    └──► graphql-request (read) ──► The Graph Subgraph
+```
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Troubleshooting
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**`npm install` fails with peer dependency errors**
+Try:
+```bash
+npm install --legacy-peer-deps
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**App shows blank page / wallet not connecting**
+- Make sure `REACT_APP_PRIVY_APP_ID` is set correctly in your `.env` file.
+- Confirm your `.env` file is inside the `event-dappp/` folder, not the repo root.
+- Restart the dev server after changing `.env`.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**Contract calls fail / wrong network**
+- Verify `REACT_APP_CONTRACT_ADDRESS` matches the network your wallet is connected to.
+- Check that `REACT_APP_RPC_URL` points to the correct network endpoint.
 
-## Learn More
+**Subgraph returns no data**
+- Confirm `REACT_APP_SUBGRAPH_URL` is the correct deployed subgraph URL.
+- Check The Graph dashboard to ensure the subgraph is synced.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**`react-scripts` not found**
+Run `npm install` again inside the `event-dappp/` folder to restore missing dependencies.
