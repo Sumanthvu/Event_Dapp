@@ -1,0 +1,60 @@
+name: Medium Task
+description: Multi-file issue with moderate implementation effort
+title: "[Medium]: "
+labels:
+  - difficulty:medium
+  - help wanted
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for medium-complexity changes touching logic, UX, or architecture.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: Describe the problem and why it matters.
+    validations:
+      required: true
+  - type: textarea
+    id: approach
+    attributes:
+      label: Proposed Approach
+      description: Suggested implementation direction.
+      placeholder: Break work into clear steps.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Files and Scope
+      description: Files likely to change.
+      placeholder: |
+        - event-dappp/src/App.js
+        - event-dappp/src/components/...
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+        - [ ] Criterion 3
+    validations:
+      required: true
+  - type: textarea
+    id: test-plan
+    attributes:
+      label: Test Plan
+      description: Include commands and manual validation.
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks and Edge Cases
+      description: Note potential regressions or edge cases.
+    validations:
+      required: false

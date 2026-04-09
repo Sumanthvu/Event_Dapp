@@ -1,0 +1,60 @@
+name: Hard Task
+description: High-complexity issue requiring architecture, testing, or security changes
+title: "[Hard]: "
+labels:
+  - difficulty:hard
+  - help wanted
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for deep changes that may span frontend, subgraph, and infrastructure.
+  - type: textarea
+    id: context
+    attributes:
+      label: Context and Motivation
+      description: Explain why this task is important.
+    validations:
+      required: true
+  - type: textarea
+    id: architecture
+    attributes:
+      label: Architecture Proposal
+      description: Describe the technical design and alternatives considered.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Cross-Repo Scope
+      description: Expected modules/files impacted.
+      placeholder: |
+        - event-dappp/src/...
+        - event-ticketinng/src/...
+        - .github/workflows/...
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      placeholder: |
+        - [ ] Functional requirement 1
+        - [ ] Security/performance requirement
+        - [ ] Documentation update
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification and Test Strategy
+      description: Include required automated and manual checks.
+    validations:
+      required: true
+  - type: textarea
+    id: blockers
+    attributes:
+      label: Dependencies or Blockers
+      description: Any external dependencies, key rotation, API access, migrations, etc.
+    validations:
+      required: false
